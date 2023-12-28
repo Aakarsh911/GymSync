@@ -5,42 +5,55 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-
-    const [values, setValues] = useState({ 
+    const [values, setValues] = useState({
         username: "",
         email: "",
         password: ""
     });
 
     const [errors, setErrors] = useState({});
+    const [submitting, setSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleInput = (event) => {
-        setValues(prev => ({ ...prev, [event.target.name]: event.target.value }));
-    }
-    const navigate = useNavigate();
+        const { name, value } = event.target;
+        setValues((prev) => ({ ...prev, [name]: value }));
+    };
+
     const handleSubmit = async (event) => {
-        const success = true;
         event.preventDefault();
-        setErrors(validation(values));
-        console.log(errors);
-    
-        if (!errors.username && !errors.email && !errors.password) {
-            axios.post('http://localhost:3001/register', values)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-                success = false;
+        const validationErrors = validation(values);
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+            try {
+                const response = await fetch('http://localhost:3001/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
             });
-            
+                if (response.ok) {
+                    navigate("/");
+                }
+                if (response.status === 409) {
+                    setErrorMessage('Email already exists. Please login.');
+                }
+            } catch (err) {
+                console.log(err);
+                console.log(err.response);
+                if (err.response && err.response.data) {
+                    setErrorMessage(err.response.data.error);
+                }
+            } finally {
+                setSubmitting(false);
+            }
+        } else {
+            setSubmitting(false);
         }
-        if (success) {
-            navigate('/login');
-        }
-    }
-    
-    
+    };
 
     return (
         <div className="register-app">
@@ -50,17 +63,20 @@ function Register() {
                     <div className="register-form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" name="username" onChange={handleInput} id="username" placeholder="Enter your username" />
-                        <span>{errors.username && <span>{errors.username}</span>}</span>
+                        <span className="error">{errors.username && <span>{errors.username}</span>}</span>
                     </div>
                     <div className="register-form-group">
                         <label htmlFor="email">Email</label>
                         <input type="email" name="email" onChange={handleInput} id="email" placeholder="Enter your email" />
+                        <span className="error">{errors.email && <span>{errors.email}</span>}</span>
                     </div>
                     <div className="register-form-group">
                         <label htmlFor="password">Password</label>
                         <input type="password" name="password" onChange={handleInput} id="password" placeholder="Enter your password" />
+                        <span className="error">{errors.password && <span>{errors.password}</span>}</span>
                     </div>
-                    <input type="submit" name="submit"/>
+                    <input type="submit" name="submit" />
+                    <span className="error">{errorMessage && <span>{errorMessage}</span>}</span>
                 </form>
                 Already have an account? <Link to="/login">Login</Link>
             </div>

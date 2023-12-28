@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://0.0.0.0:27017/testBasic');
+mongoose.connect('mongodb://0.0.0.0:27017/registeration');
 
 const db = mongoose.connection;
 
@@ -33,20 +33,43 @@ app.listen(PORT, () => {
 console.log("here");
 app.post('/register', async (req, res) => {
     try {
+        const existingUser = await User.findOne({ email: req.body.email });
+
+        if (existingUser) {
+            return res.status(409).json({ error: 'Email already exists. Please login.' });
+        }
+        
         const user = new User({
             username: req.body.username,
             email: req.body.email,
             password: req.body.password
         });
-
         await user.save();
+        res.json({ message: 'Registration successful' });
     } catch (err) {
         console.log(err);
         res.status(500).send('Internal Server Error');
     }
 });
 
-app.get('*', (req, res) => {
-    res.redirect('http://localhost:3000/login');
-  });
+app.post('/login', async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (user.password !== req.body.password) {
+            return res.status(401).json({ error: 'Incorrect password' });
+        }
+
+        // Successful login
+        res.json({ message: 'Login successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
   
