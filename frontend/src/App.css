@@ -35,26 +35,25 @@ body {
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #FFFFEC;
+  background: #EEF5FF;
 }
 
 nav {
-  background: #282c34;
+  background: #B4D4FF;
   height: 2em;
   display: flex;
   color: white;
   justify-content: space-between;
   align-items: center;
-  padding: 1em 2em 1em 2em;
+  padding: 1em 6em 1em 6em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
 }
 
-.line1, .line2, .line3 {
-  width: 2em;
-  height: 0.25em;
-  background: white;
-  margin: 0.3em;
-  border-radius: 5px;
+.account {
+  height: 2.5em;
+  width: 2.5em;
+  border-radius: 50%;
+  background: #fff;
 }
 
 .register-app {
@@ -79,15 +78,112 @@ input {
   margin-bottom: 1em;
 }
 
+.open-nav {
+  width: 50%;
+  background: white;
+  position: fixed;
+  z-index: 1;
+  height: 100vh;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  height: 100%;
+  padding: 1em;
+}
+
+.nav-links li {
+  padding: 1em;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #282c34;
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+  color: #000;
+}
+
+.account img {
+  height: 40px;
+  width: 40px;
+  margin-right: 1em;
+}
+
 .error {
   color: red;
 }
 
-@keyframes App-logo-spin {
+.hidden {
+  display: none;
+}
+
+@keyframes slide-left {
   from {
-    transform: rotate(0deg);
+    transform: translate(200%, 54.5%);
   }
   to {
-    transform: rotate(360deg);
+    transform: translate(100%, 54.5%);
+  }
+}
+
+.register-form {
+  border: 5px solid #282c34;
+  padding: 1em;
+  padding-top: 0;
+  color: black;
+  border-radius: 2em;
+}
+
+.register-form label {
+  font-size: 1.5em;
+  padding-bottom: 0.5em;
+}
+
+.register-form input {
+  border: 1px solid #282c34;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  width: 15em;
+}
+
+.register-form p {
+  margin: 0;
+}
+
+.submit {
+  margin-left: 1em;
+  background: #282c34;
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  right: 4em;
+  font-size: 2em;
+  color: #282c34;
+}
+
+.close-button:hover {
+  cursor: pointer;
+}
+
+@keyframes slide-right {
+  from {
+    transform: translate(100%, 54.5%);
+  }
+  to {
+    transform: translate(200%, 54.5%);
   }
 }

@@ -59,13 +59,12 @@ app.post('/login', async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
         if (user.password !== req.body.password) {
             return res.status(401).json({ error: 'Incorrect password' });
         }
 
         // Successful login
-        res.json({ message: 'Login successful' });
+        res.json({ message: 'Login successful', username: user.username });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });

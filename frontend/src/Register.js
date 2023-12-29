@@ -36,6 +36,7 @@ function Register() {
                 body: JSON.stringify(values),
             });
                 if (response.ok) {
+                    localStorage.setItem('username', values.username);
                     navigate("/");
                 }
                 if (response.status === 409) {
@@ -75,7 +76,7 @@ function Register() {
                         <input type="password" name="password" onChange={handleInput} id="password" placeholder="Enter your password" />
                         <span className="error">{errors.password && <span>{errors.password}</span>}</span>
                     </div>
-                    <input type="submit" name="submit" />
+                    <input type="submit" name="submit" className="submit" />
                     <span className="error">{errorMessage && <span>{errorMessage}</span>}</span>
                 </form>
                 Already have an account? <Link to="/login">Login</Link>
