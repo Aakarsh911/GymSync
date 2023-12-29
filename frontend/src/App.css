@@ -47,6 +47,7 @@ nav {
   align-items: center;
   padding: 1em 6em 1em 6em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
+  border-bottom: 0.5px solid #282c34;
 }
 
 .account {
@@ -54,6 +55,8 @@ nav {
   width: 2.5em;
   border-radius: 50%;
   background: #fff;
+  margin-top: 1.4em;
+  margin-right: 1em;
 }
 
 .register-app {
@@ -129,6 +132,24 @@ input {
   display: none;
 }
 
+.add {
+  color: gray;
+}
+
+.add:hover {
+  cursor: pointer;
+}
+
+.add-button {
+  color: gray;
+  border: none;
+  height: 2em;
+  width: 2em;
+  font-size: 1.2em;
+  margin-left: 0.5em;
+  margin-top: 1em;
+}
+
 @keyframes slide-left {
   from {
     transform: translate(200%, 54.5%);
@@ -179,6 +200,39 @@ input {
   cursor: pointer;
 }
 
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: #B4D4FF;
+}
+
+.day-panel {
+  width: 25%;
+  height: 100vh;
+  background: #EEF5FF;
+  margin: 0.2em;
+  border-radius: 10px;
+  padding-left: 1em;
+}
+
+.dashboard {
+  width: 75%;
+  height: 100vh;
+  background: #EEF5FF;
+  margin: 0.2em;
+  border-radius: 10px;
+  padding-left: 1em;
+}
+
+.dashboard-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
 @keyframes slide-right {
   from {
     transform: translate(100%, 54.5%);
@@ -187,3 +241,28 @@ input {
     transform: translate(200%, 54.5%);
   }
 }
+
+.workout-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 1em;
+  margin-right: 1em;
+  transition: border 0.3s ease-in-out;
+}
+
+.workout-item:hover {
+  border: 1px solid #282c34;
+}
+
+.delete-icon {
+  cursor: pointer;
+  display: none;
+  margin-right: 1em;
+}
+
+.workout-item.hovered .delete-icon {
+  display: inline; /* Show the delete icon when hovered */
+  color: red; /* Customize the color as needed */
+}
+
