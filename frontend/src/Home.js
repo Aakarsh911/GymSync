@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import userLogo from "./user.png";
 import Exercise from "./Excercise";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const username = localStorage.getItem("username");
@@ -23,7 +24,12 @@ function Home() {
   const [exerciseWeight, setExerciseWeight] = useState("");
   const [exercises, setExercises] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (!username) {
+        navigate("/login");
+    }
     const fetchUserWorkouts = async () => {
       try {
         const response = await fetch(`http://localhost:3001/getWorkouts/${username}`);
@@ -70,6 +76,11 @@ function Home() {
   const addWorkout = () => {
     setShowForm(true);
   };
+
+  const Logout = () => {
+    localStorage.removeItem("username");
+    navigate("/login");
+  }
 
   const handleCreateSubmit = async () => {
     try {
