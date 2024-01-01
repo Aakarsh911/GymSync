@@ -18,7 +18,7 @@ function Exercise(props) {
                         <h4>Time</h4>
                         <p>{props.time}</p>
                     </div>
-                    <div className="exercise-info-item">
+                    <div className="exercise-info-item no-pad">
                         <h4>Weight</h4>
                         <p>{props.weight}</p>
                     </div>

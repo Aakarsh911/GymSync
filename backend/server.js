@@ -236,3 +236,57 @@ app.get('/getExercises/:username/:workoutIndex/:day', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  app.post('/deleteExercise', async (req, res) => {
+    try {
+        const { username, workoutIndex, day, exerciseIndex } = req.body;
+
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const workout = user.workouts[workoutIndex];
+
+        if (!workout) {
+            return res.status(404).json({ error: 'Workout not found' });
+        }
+
+        workout.days[day].splice(exerciseIndex, 1);
+
+        await user.save();
+
+        res.json({ message: 'Exercise deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post('/updateExercise', async (req, res) => {
+    try {
+        const { username, workoutIndex, day, exerciseIndex, updatedExercise } = req.body;
+
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const workout = user.workouts[workoutIndex];
+
+        if (!workout) {
+            return res.status(404).json({ error: 'Workout not found' });
+        }
+
+        workout.days[day][exerciseIndex] = updatedExercise;
+
+        await user.save();
+
+        res.json({ message: 'Exercise updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});

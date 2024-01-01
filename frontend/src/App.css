@@ -410,6 +410,8 @@ input {
 
 .excercise-header {
   border-bottom: 0.5px solid #fff;
+  display: flex;
+  justify-content: space-between;
 }
 
 .exercise {
@@ -445,6 +447,55 @@ input {
 
 .exercise-info-item {
   padding-right: 1em;
+  text-align: center;
 }
 
+.exercise-form {
+  margin: 3em;
+  margin-top: -2.7em;
+}
 
+.exercise-form button {
+  margin-right: 2.3em;
+  background: black;
+  color: white;
+  border-radius: 1em;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.no-pad {
+  padding-right: 0;
+}
+
+.icon {
+  cursor: pointer;
+  margin-right: 1em;
+}
+
+.exercise-icons {
+  padding-top: 1em;
+}
+
+.edit-exercise-form {
+  border-radius: 1em;
+  margin-right: 1em;
+  transition: ease-in-out 0.3s;
+  background: black;
+  color: white;
+  padding: 1em;
+  margin-bottom: 1em;
+  width: 14em;
+}
+
+.edit-exercise-form input {
+  background: black;
+  color: white;
+  border: none;
+  border-bottom: 0.5px solid #fff;
+  width: 100%;
+}
+
+.heading {
+  border-bottom: 0.5px solid #fff;
+}
