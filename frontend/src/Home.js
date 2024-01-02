@@ -38,6 +38,7 @@ function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        localStorage.removeItem("username");
         if (!username) {
             navigate("/login");
         }
