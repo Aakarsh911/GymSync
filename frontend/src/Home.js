@@ -44,7 +44,7 @@ function Home() {
         }
         const fetchUserWorkouts = async () => {
             try {
-                const response = await fetch(`https://gymance.onrender.com:10000/getWorkouts/${username}`);
+                const response = await fetch(`https://gymance-p22k.vercel.app/getWorkouts/${username}`);
                 if (response.ok) {
                     const data = await response.json();
                     setUserWorkouts(data.workouts || []);
@@ -63,7 +63,7 @@ function Home() {
             if (selectedSharedWorkoutIndex !== null) {
                 try {
                     setIsLoadingExercises(true);
-                    const response = await fetch(`https://gymance.onrender.com:10000/getSharedExercises/${username}/${selectedSharedWorkoutIndex}/${selectedDay}`);
+                    const response = await fetch(`https://gymance-p22k.vercel.app/getSharedExercises/${username}/${selectedSharedWorkoutIndex}/${selectedDay}`);
                     if (response.ok) {
                         const data = await response.json();
                         setExercises(data.exercises || []);
@@ -88,7 +88,7 @@ function Home() {
     useEffect(() => {
         const fetchUserExercises = async () => {
             try {
-                const response = await fetch(`https://gymance.onrender.com:10000/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
+                const response = await fetch(`https://gymance-p22k.vercel.app/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
                 if (response.ok) {
                     const data = await response.json();
                     setExercises(data.exercises || []);
@@ -106,7 +106,7 @@ function Home() {
     useEffect(() => {
         const fetchUserSharedWorkouts = async () => {
             try {
-                const response = await fetch(`https://gymance.onrender.com:10000/getSharedWorkouts/${username}`);
+                const response = await fetch(`https://gymance-p22k.vercel.app/getSharedWorkouts/${username}`);
                 if (response.ok) {
                     const data = await response.json();
                     setUserSharedWorkouts(data.sharedWorkouts || []);
@@ -140,7 +140,7 @@ function Home() {
 
     const handleCreateSubmit = async () => {
         try {
-            const response = await fetch("https://gymance.onrender.com/addWorkout", {
+            const response = await fetch("https://gymance-p22k.vercel.app/addWorkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -165,7 +165,7 @@ function Home() {
 
     const handleEditSubmit = async () => {
         try {
-            const response = await fetch("https://gymance.onrender.com/updateWorkoutName", {
+            const response = await fetch("https://gymance-p22k.vercel.app/updateWorkoutName", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -195,7 +195,7 @@ function Home() {
 
     const handleDelete = async (index) => {
         try {
-            const response = await fetch("https://gymance.onrender.com/deleteWorkout", {
+            const response = await fetch("https://gymance-p22k.vercel.app/deleteWorkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -272,7 +272,7 @@ function Home() {
 
     const moveToWorkouts = async (index) => {
         try {
-            const response = await fetch(`https://gymance.onrender.com/moveToWorkouts/${username}/${index}`, {
+            const response = await fetch(`https://gymance-p22k.vercel.app/moveToWorkouts/${username}/${index}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -304,7 +304,7 @@ function Home() {
                 return;
             }
 
-            const response = await fetch("https://gymance.onrender.com/addExercise", {
+            const response = await fetch("https://gymance-p22k.vercel.app/addExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -347,7 +347,7 @@ function Home() {
         const shareUsername = prompt("Enter username to share with:");
         if (shareUsername) {
             try {
-                const response = await fetch(`https://gymance.onrender.com/shareWorkout/${shareUsername}`, {
+                const response = await fetch(`https://gymance-p22k.vercel.app/shareWorkout/${shareUsername}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -370,7 +370,7 @@ function Home() {
 
     const handleDeleteExercise = async (index) => {
         try {
-            const response = await fetch("https://gymance.onrender.com/deleteExercise", {
+            const response = await fetch("https://gymance-p22k.vercel.app/deleteExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -418,7 +418,7 @@ function Home() {
                 return;
             }
 
-            const response = await fetch("https://gymance.onrender.com/updateExercise", {
+            const response = await fetch("https://gymance-p22k.vercel.app/updateExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -464,7 +464,7 @@ function Home() {
 
     const fetchUpdatedExercises = async () => {
         try {
-            const response = await fetch(`https://gymance.onrender.com/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
+            const response = await fetch(`https://gymance-p22k.vercel.app/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
             if (response.ok) {
                 const data = await response.json();
                 return data.exercises || [];

@@ -19,7 +19,7 @@ function Login() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("https://gymance.onrender.com/login", {
+      const response = await fetch("https://gymance-p22k.vercel.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

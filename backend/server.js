@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require("cors");
 
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -37,11 +37,11 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors(
     {
-        origin: "https://gymance.onrender.com",
+        origin: "https://gymance.vercel.app",
         credentials: true,
         methods: "GET,POST",
     }

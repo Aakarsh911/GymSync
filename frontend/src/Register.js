@@ -27,7 +27,7 @@ function Register() {
 
         if (Object.keys(validationErrors).length === 0) {
             try {
-                const response = await fetch('https://gymance.onrender.com/register', {
+                const response = await fetch('https://gymance-p22k.vercel.app/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
