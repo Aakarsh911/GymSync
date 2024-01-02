@@ -140,7 +140,7 @@ function Home() {
 
     const handleCreateSubmit = async () => {
         try {
-            const response = await fetch("https://gymance.onrender.com:10000/addWorkout", {
+            const response = await fetch("https://gymance.onrender.com/addWorkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -165,7 +165,7 @@ function Home() {
 
     const handleEditSubmit = async () => {
         try {
-            const response = await fetch("https://gymance.onrender.com:10000/updateWorkoutName", {
+            const response = await fetch("https://gymance.onrender.com/updateWorkoutName", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -195,7 +195,7 @@ function Home() {
 
     const handleDelete = async (index) => {
         try {
-            const response = await fetch("https://gymance.onrender.com:10000/deleteWorkout", {
+            const response = await fetch("https://gymance.onrender.com/deleteWorkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -272,7 +272,7 @@ function Home() {
 
     const moveToWorkouts = async (index) => {
         try {
-            const response = await fetch(`https://gymance.onrender.com:10000/moveToWorkouts/${username}/${index}`, {
+            const response = await fetch(`https://gymance.onrender.com/moveToWorkouts/${username}/${index}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -304,7 +304,7 @@ function Home() {
                 return;
             }
 
-            const response = await fetch("https://gymance.onrender.com:10000/addExercise", {
+            const response = await fetch("https://gymance.onrender.com/addExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -347,7 +347,7 @@ function Home() {
         const shareUsername = prompt("Enter username to share with:");
         if (shareUsername) {
             try {
-                const response = await fetch(`https://gymance.onrender.com:10000/shareWorkout/${shareUsername}`, {
+                const response = await fetch(`https://gymance.onrender.com/shareWorkout/${shareUsername}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -370,7 +370,7 @@ function Home() {
 
     const handleDeleteExercise = async (index) => {
         try {
-            const response = await fetch("https://gymance.onrender.com:10000/deleteExercise", {
+            const response = await fetch("https://gymance.onrender.com/deleteExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -418,7 +418,7 @@ function Home() {
                 return;
             }
 
-            const response = await fetch("https://gymance.onrender.com:10000/updateExercise", {
+            const response = await fetch("https://gymance.onrender.com/updateExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -464,7 +464,7 @@ function Home() {
 
     const fetchUpdatedExercises = async () => {
         try {
-            const response = await fetch(`https://gymance.onrender.com:10000/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
+            const response = await fetch(`https://gymance.onrender.com/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
             if (response.ok) {
                 const data = await response.json();
                 return data.exercises || [];
