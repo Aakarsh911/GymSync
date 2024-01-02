@@ -41,8 +41,9 @@ const PORT = process.env.PORT || 10000;
 
 app.use(cors(
     {
-        origin: "https://gymance.onrender.com:10000",
-        credentials: true
+        origin: "https://gymance.onrender.com",
+        credentials: true,
+        methods: "GET,POST",
     }
 ));
 
