@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import userLogo from "./user.png";
 import { useNavigate } from "react-router-dom";
-import { set } from "mongoose";
 
 function Home() {
     const username = localStorage.getItem("username");
