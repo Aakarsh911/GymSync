@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require("cors");
 
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -49,6 +49,10 @@ app.use(cors(
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+    res.send('Hello World');
 });
 
 app.post('/register', async (req, res) => {
