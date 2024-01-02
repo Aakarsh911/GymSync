@@ -41,7 +41,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors(
     {
-        origin: ["https://gymance.vercel.app", "https://gymance-p22k.vercel.app"],
+        origin: "https://gymance.vercel.app",
         credentials: true,
         methods: "GET,POST",
     }
