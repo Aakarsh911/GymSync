@@ -118,6 +118,7 @@ input {
   color: #000;
 }
 
+
 .account img {
   height: 40px;
   width: 40px;
@@ -205,9 +206,10 @@ input {
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  width: 100%;
+  width: 99%;
   position: relative;
   background: #B4D4FF;
+  padding: 0.5em;
 }
 
 .day-panel {

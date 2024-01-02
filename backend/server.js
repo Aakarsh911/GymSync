@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     workouts: [workoutSchema],
+    sharedWorkouts: [workoutSchema],
 });
 
 const User = mongoose.model('User', userSchema);
@@ -290,3 +291,113 @@ app.post('/updateExercise', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.post('/shareWorkout/:shareUsername', async (req, res) => {
+    try {
+        const { username, workoutIndex } = req.body;
+        const shareUsername = req.params.shareUsername;
+
+        // Find the user by the username who wants to share the workout
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Find the workout to be shared
+        const workoutToShare = user.workouts[workoutIndex];
+
+        if (!workoutToShare) {
+            return res.status(404).json({ error: 'Workout not found' });
+        }
+
+        // Check if the workout is already shared with the target user
+        const isAlreadyShared = user.sharedWorkouts.some(
+            (sharedWorkout) =>
+                sharedWorkout.workoutName === workoutToShare.workoutName
+        );
+
+        if (isAlreadyShared) {
+            return res.status(400).json({ error: 'Workout already shared with the user' });
+        }
+
+        // Add the entire shared workout to the target user's sharedWorkouts array
+        await User.updateOne(
+            { username: shareUsername },
+            {
+                $push: {
+                    sharedWorkouts: workoutToShare,
+                },
+            }
+        );
+
+        res.json({ message: 'Workout shared successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/getSharedWorkouts/:username', async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ sharedWorkouts: user.sharedWorkouts });
+    } catch (error) {
+        console.error('Error fetching shared workouts:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.get('/getSharedExercises/:username/:workoutIndex/:day', async (req, res) => {
+    try {
+        const { username, workoutIndex, day } = req.params;
+    
+        const user = await User.findOne({ username });
+    
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+    
+        const workout = user.sharedWorkouts[workoutIndex];
+    
+        if (!workout) {
+          return res.status(404).json({ error: 'Workout not found' });
+        }
+    
+        const exercises = workout.days[day] || [];
+    
+        res.json({ exercises });
+      } catch (error) {
+        console.error("Error fetching exercises:", error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+
+    app.post('/moveToWorkouts/:username/:workoutIndex', async (req, res) => {
+        try {
+            const username = req.params.username;
+            const workoutIndex = req.params.workoutIndex;
+            const user = await User.findOne({ username });
+
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            const workout = user.sharedWorkouts[workoutIndex];
+            if (!workout) {
+                return res.status(404).json({ error: 'Workout not found' });
+            }
+            user.sharedWorkouts.splice(workoutIndex, 1);
+            user.workouts.push(workout);
+            await user.save();
+            res.json({ message: 'Workout moved successfully' });
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }});

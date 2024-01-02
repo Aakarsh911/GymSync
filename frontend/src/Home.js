@@ -9,12 +9,16 @@ function Home() {
     const [workoutName, setWorkoutName] = useState("");
     const [editWorkoutName, setEditWorkoutName] = useState("");
     const [userWorkouts, setUserWorkouts] = useState([]);
+    const [userSharedWorkouts, setUserSharedWorkouts] = useState([]);
     const [hoveredWorkoutIndex, setHoveredWorkoutIndex] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [selectedDay, setSelectedDay] = useState("Monday");
     const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedSharedWorkoutIndex, setSelectedSharedWorkoutIndex] = useState(null);
+    const [selectedWorkout, setSelectedWorkout] = useState(null);
+    const [isLoadingExercises, setIsLoadingExercises] = useState(false);
 
-    const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState(0);
+    const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState(null);
     const [showExerciseForm, setShowExerciseForm] = useState(false);
     const [exerciseName, setExerciseName] = useState("");
     const [numberOfSets, setNumberOfSets] = useState("");
@@ -28,6 +32,7 @@ function Home() {
     const [editedNumberOfRepetitions, setEditedNumberOfRepetitions] = useState("");
     const [editedExerciseTime, setEditedExerciseTime] = useState("");
     const [editedExerciseWeight, setEditedExerciseWeight] = useState("");
+    const [hoveredSelectedWorkoutIndex, setHoveredSelectedWorkoutIndex] = useState(null);
 
 
     const navigate = useNavigate();
@@ -53,6 +58,33 @@ function Home() {
     }, [username]);
 
     useEffect(() => {
+        const fetchSharedExcercises = async () => {
+            if (selectedSharedWorkoutIndex !== null) {
+                try {
+                    setIsLoadingExercises(true);
+                    const response = await fetch(`http://localhost:3001/getSharedExercises/${username}/${selectedSharedWorkoutIndex}/${selectedDay}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setExercises(data.exercises || []);
+                        if (exercises.length === 0) {
+                            setIsLoadingExercises(true);
+                        }
+                    } else {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                }
+                catch (error) {
+                    console.error("Error fetching exercises:", error.message);
+                }
+                finally {
+                    setIsLoadingExercises(false);
+                }
+            }
+        };
+        fetchSharedExcercises();
+    }, [username, selectedSharedWorkoutIndex, selectedDay]);
+
+    useEffect(() => {
         const fetchUserExercises = async () => {
             try {
                 const response = await fetch(`http://localhost:3001/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
@@ -69,6 +101,23 @@ function Home() {
         };
         fetchUserExercises();
     }, [username, selectedWorkoutIndex, selectedDay]);
+
+    useEffect(() => {
+        const fetchUserSharedWorkouts = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/getSharedWorkouts/${username}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserSharedWorkouts(data.sharedWorkouts || []);
+                } else {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error("Error fetching shared workouts:", error.message);
+            }
+        };
+        fetchUserSharedWorkouts();
+    }, [username]);
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -197,7 +246,15 @@ function Home() {
 
     const selectWorkout = (index) => {
         setSelectedWorkoutIndex(index);
+        setSelectedSharedWorkoutIndex(null);
+        setSelectedWorkout(userWorkouts[index]);
     };
+
+    const selectSharedWorkout = (index) => {
+        setSelectedSharedWorkoutIndex(index);
+        setSelectedWorkoutIndex(null);
+        setSelectedWorkout(userSharedWorkouts[index]);
+    }
 
     const displayExerciseForm = () => {
         setShowExerciseForm(true);
@@ -206,9 +263,34 @@ function Home() {
     const displayBackAndSet = () => {
         setEditExerciseIndex(null);
         const allExercises = document.querySelectorAll(".exercise");
-            allExercises.forEach(exercise => {
-                exercise.classList.remove("hidden");
+        allExercises.forEach(exercise => {
+            exercise.classList.remove("hidden");
+        });
+    }
+
+    const moveToWorkouts = async (index) => {
+        try {
+            const response = await fetch(`http://localhost:3001/moveToWorkouts/${username}/${index}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: username,
+                    workoutIndex: index,
+                }),
             });
+            if (response.ok) {
+                const data = await response.json();
+                setUserWorkouts(data.workouts || []);
+                setUserSharedWorkouts(data.sharedWorkouts || []);
+                window.location.reload();
+            } else {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error("Error fetching shared workouts:", error.message);
+        }
     }
 
     const handleExerciseSubmit = async () => {
@@ -258,6 +340,31 @@ function Home() {
             console.error("Error adding exercise:", error.message);
         }
     };
+
+    const handleShare = async (index) => {
+        const shareUsername = prompt("Enter username to share with:");
+        if (shareUsername) {
+            try {
+                const response = await fetch(`http://localhost:3001/shareWorkout/${shareUsername}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        workoutIndex: index,
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error("Error sharing workout:", error.message);
+            }
+        }
+    };
+    
 
     const handleDeleteExercise = async (index) => {
         try {
@@ -384,10 +491,13 @@ function Home() {
                         {hoveredWorkoutIndex === index && (
                             <div className="action-icons">
                                 <span className="delete-icon" onClick={() => handleDelete(index)}>
-                                    🗑️
+                                    ❌
                                 </span>
                                 <span className="delete-icon" onClick={() => handleEdit(index)}>
-                                    ✏️
+                                    🖊
+                                </span>
+                                <span className="delete-icon" onClick={() => handleShare(index)}>
+                                    💾
                                 </span>
                             </div>
                         )}
@@ -434,6 +544,26 @@ function Home() {
                         </div>
                     </div>
                 )}
+                <h1>Shared Workouts</h1>
+                {userSharedWorkouts.map((sharedWorkout, index) => (
+                    <div
+                        key={index}
+                        className={`workout-item ${hoveredSelectedWorkoutIndex === index ? "hovered" : ""} ${selectedSharedWorkoutIndex === index ? "selected-workout" : ""}`}
+                        onClick={() => selectSharedWorkout(index)}
+                        onMouseEnter={() => setHoveredSelectedWorkoutIndex(index)}
+                        onMouseLeave={() => setHoveredSelectedWorkoutIndex(null)}
+                    >
+                        <h2>{sharedWorkout.workoutName}</h2>
+                        {hoveredSelectedWorkoutIndex === index && (
+                            <div className="">
+                                <span className="delete-icon" onClick={() => moveToWorkouts(index)}>
+                                    ↑
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                ))}
+
             </div>
             <div className="dashboard">
                 <div className="dashboard-nav">
@@ -442,7 +572,7 @@ function Home() {
                         <img src={userLogo} alt="user" />
                     </div>
                 </div>
-                {userWorkouts[selectedWorkoutIndex] && (
+                {(userWorkouts[selectedWorkoutIndex] || userSharedWorkouts[selectedSharedWorkoutIndex]) && (
                     <div className="dropdown">
                         <div className={`select ${showDropdown ? "select-clicked" : ""}`} onClick={toggleDropdown}>
                             <span className={`selected ${showDropdown ? "" : ""}`}>{selectedDay}</span>
@@ -508,9 +638,9 @@ function Home() {
                     </div>
                 )}
 
-                {userWorkouts[selectedWorkoutIndex] ? (
+                {selectedWorkout? (
                     <div className="exercises-list">
-                        <h2>Exercises for {userWorkouts[selectedWorkoutIndex]?.workoutName} - {selectedDay}</h2>
+                        <h2>Exercises for {selectedWorkout?.workoutName} - {selectedDay}</h2>
                         <ul>
                             {exercises.map((exercise, index) => (
                                 <li key={index} className="exercise-item">
@@ -519,7 +649,7 @@ function Home() {
                                             <h3>{exercise.name}</h3>
                                             <div className="action-icons exercise-icons">
                                                 <span className="icon" onClick={() => handleDeleteExercise(index)}>
-                                                    🗑️
+                                                    ❌
                                                 </span>
                                                 {editExerciseIndex === index ? (
                                                     <>
@@ -532,7 +662,7 @@ function Home() {
                                                     </>
                                                 ) : (
                                                     <span className="icon" onClick={() => handleEditExercise(index)}>
-                                                        ✏️
+                                                        🖊
                                                     </span>
                                                 )}
                                             </div>
@@ -558,7 +688,6 @@ function Home() {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* Show edit form below the exercise being edited */}
                                     {editExerciseIndex === index && (
                                         <div className="edit-exercise-form">
                                             Name:<input
@@ -613,6 +742,11 @@ function Home() {
                 ) : (
                     <div className="fix-top-margin">
                         <h2>No workout selected</h2>
+                    </div>
+                )}
+                {isLoadingExercises && (
+                    <div className="fix-top-margin">
+                        <h2>Loading...</h2>
                     </div>
                 )}
             </div>
