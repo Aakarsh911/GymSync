@@ -28,7 +28,7 @@ function Register() {
 
         if (Object.keys(validationErrors).length === 0) {
             try {
-                const response = await fetch('http://localhost:3001/register', {
+                const response = await fetch('http://52.41.36.82:3001/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
