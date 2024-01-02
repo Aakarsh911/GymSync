@@ -39,7 +39,12 @@ const User = mongoose.model('User', userSchema);
 
 const PORT = process.env.PORT || 10000;
 
-app.use(cors());
+app.use(cors(
+    {
+        origin: "https://gymance.onrender.com:10000",
+        credentials: true
+    }
+));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
