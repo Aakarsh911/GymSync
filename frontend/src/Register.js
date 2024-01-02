@@ -3,6 +3,9 @@ import validation from "./RegisterValidation";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const axios = require('axios');
+axios.defaults.withCredentials = true;
+
 function Register() {
     const [values, setValues] = useState({
         username: "",
@@ -26,30 +29,27 @@ function Register() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            try {
-                const response = await fetch('https://gymance-p22k.vercel.app/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-            });
-                if (response.ok) {
-                    localStorage.setItem('username', values.username);
-                    navigate("/");
-                }
-                if (response.status === 409) {
-                    setErrorMessage('Email already exists. Please login.');
-                }
-            } catch (err) {
-                console.log(err);
-                console.log(err.response);
-                if (err.response && err.response.data) {
-                    setErrorMessage(err.response.data.error);
-                }
-            } finally {
-                setSubmitting(false);
-            }
+            const response = await axios.post('https://gymance-p22k.vercel.app/register', {
+                username: values.username,
+                email: values.email,
+                password: values.password
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        localStorage.setItem('username', values.username);
+                        navigate("/");
+                    }
+                    if (response.status === 409) {
+                        setErrorMessage('Email already exists. Please login.');
+                    }
+                })
+                .catch(function (error) {
+                    console.log(err);
+                    console.log(err.response);
+                    if (err.response && err.response.data) {
+                        setErrorMessage(err.response.data.error);
+                    }
+                });
         } else {
             setSubmitting(false);
         }
