@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import validation from "./RegisterValidation";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -28,7 +27,7 @@ function Register() {
 
         if (Object.keys(validationErrors).length === 0) {
             try {
-                const response = await fetch('http://52.41.36.82:3001/register', {
+                const response = await fetch('https://52.41.36.82:3001/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

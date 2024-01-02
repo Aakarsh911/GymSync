@@ -19,7 +19,7 @@ function Login() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://52.41.36.82:3001/login", {
+      const response = await fetch("https://52.41.36.82:3001/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
