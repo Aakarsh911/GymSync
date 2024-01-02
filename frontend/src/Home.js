@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import userLogo from "./user.png";
 import { useNavigate } from "react-router-dom";
+import { set } from "mongoose";
 
 function Home() {
     const username = localStorage.getItem("username");
@@ -221,9 +222,10 @@ function Home() {
 
             // Reset selected workout index and exercises when the current workout is deleted
             if (selectedWorkoutIndex === index) {
-                setSelectedWorkoutIndex(0); // Set to the first workout or another default index
+                setSelectedWorkoutIndex(null); // Set to the first workout or another default index
                 const updatedExercises = await fetchUpdatedExercises();
                 setExercises(updatedExercises);
+                setSelectedWorkout(null);
             }
         } catch (error) {
             console.error("Error deleting workout:", error.message);
@@ -355,12 +357,12 @@ function Home() {
                         workoutIndex: index,
                     }),
                 });
-    
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                const errorMessage = await response.text();
+                if (response.status === 404) {
+                    alert(`User does not exist`);
                 }
             } catch (error) {
-                console.error("Error sharing workout:", error.message);
+                alert("Error sharing workout");
             }
         }
     };
@@ -570,6 +572,9 @@ function Home() {
                     <h1 className="username">{username}'s Dashboard</h1>
                     <div className="account">
                         <img src={userLogo} alt="user" />
+                        <div>
+                            <button className="logout" onClick={Logout}>Logout</button>
+                        </div>
                     </div>
                 </div>
                 {(userWorkouts[selectedWorkoutIndex] || userSharedWorkouts[selectedSharedWorkoutIndex]) && (
@@ -738,6 +743,11 @@ function Home() {
                                 </li>
                             ))}
                         </ul>
+                        {exercises.length === 0 && (
+                            <div className="no-exercises">
+                                <h3>No exercises for this day</h3>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="fix-top-margin">
