@@ -22,6 +22,7 @@ function Register() {
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoadingExercises, setIsLoadingExercises] = useState(false);
     const navigate = useNavigate();
 
     const handleInput = (event) => {
@@ -36,6 +37,7 @@ function Register() {
 
         if (Object.keys(validationErrors).length === 0) {
             try {
+                setIsLoadingExercises(true);
                 const response = await fetch('https://gymance-y7ux.onrender.com/register', {
                 method: 'POST',
                 headers: {
@@ -58,6 +60,7 @@ function Register() {
                 }
             } finally {
                 setSubmitting(false);
+                setIsLoadingExercises(false);
             }
         } else {
             setSubmitting(false);
@@ -88,6 +91,11 @@ function Register() {
                     <span className="error">{errorMessage && <span>{errorMessage}</span>}</span>
                 </form>
                 Already have an account? <Link to="/login">Login</Link>
+                {isLoadingExercises && (
+                    <div className="fix-top-margin">
+                        <h2>Loading...</h2>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -20,6 +20,7 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoadingExercises, setIsLoadingExercises] = useState(false);
 
   const handleInput = (event) => {
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -27,6 +28,7 @@ function Login() {
 
   const handleSubmit = async () => {
     try {
+      setIsLoadingExercises(true);
       const response = await fetch("https://gymance-y7ux.onrender.com/login", {
         method: "POST",
         headers: {
@@ -46,6 +48,7 @@ function Login() {
     } catch (error) {
       console.error("Error during authentication:", error);
     }
+    setIsLoadingExercises(false);
   };
 
   const handleFormSubmit = (event) => {
@@ -94,6 +97,11 @@ function Login() {
         <p>
           Don't have an account? <Link to="/register">Register</Link>
         </p>
+        {isLoadingExercises && (
+                    <div className="fix-top-margin">
+                        <h2>Loading...</h2>
+                    </div>
+                )}
       </div>
     </div>
   );

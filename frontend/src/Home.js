@@ -3,6 +3,7 @@ import userLogo from "./user.png";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faCheck , faTrash, faShare, faUpload} from "@fortawesome/free-solid-svg-icons";
+import { set } from "mongoose";
 
 function Home() {
     const username = localStorage.getItem("username");
@@ -45,6 +46,7 @@ function Home() {
         }
         const fetchUserWorkouts = async () => {
             try {
+                setIsLoadingExercises(true);
                 const response = await fetch(`https://gymance-y7ux.onrender.com/getWorkouts/${username}`);
                 if (response.ok) {
                     const data = await response.json();
@@ -54,6 +56,9 @@ function Home() {
                 }
             } catch (error) {
                 console.error("Error fetching workouts:", error.message);
+            }
+            finally {
+                setIsLoadingExercises(false);
             }
         };
         fetchUserWorkouts();
@@ -89,6 +94,7 @@ function Home() {
     useEffect(() => {
         const fetchUserExercises = async () => {
             try {
+                setIsLoadingExercises(true);
                 const response = await fetch(`https://gymance-y7ux.onrender.com/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
                 if (response.ok) {
                     const data = await response.json();
@@ -99,6 +105,9 @@ function Home() {
             } catch (error) {
                 console.error("Error fetching exercises:", error.message);
                 setExercises([]);
+            }
+            finally {
+                setIsLoadingExercises(false);
             }
         };
         fetchUserExercises();
