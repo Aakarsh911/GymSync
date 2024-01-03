@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import userLogo from "./user.png";
 import { useNavigate } from "react-router-dom";
-import { set } from "mongoose";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faCheck , faTrash, faShare, faUpload} from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
     const username = localStorage.getItem("username");
@@ -44,7 +45,7 @@ function Home() {
         }
         const fetchUserWorkouts = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/getWorkouts/${username}`);
+                const response = await fetch(`https://gymance-y7ux.onrender.com/getWorkouts/${username}`);
                 if (response.ok) {
                     const data = await response.json();
                     setUserWorkouts(data.workouts || []);
@@ -63,7 +64,7 @@ function Home() {
             if (selectedSharedWorkoutIndex !== null) {
                 try {
                     setIsLoadingExercises(true);
-                    const response = await fetch(`http://localhost:3001/getSharedExercises/${username}/${selectedSharedWorkoutIndex}/${selectedDay}`);
+                    const response = await fetch(`https://gymance-y7ux.onrender.com/getSharedExercises/${username}/${selectedSharedWorkoutIndex}/${selectedDay}`);
                     if (response.ok) {
                         const data = await response.json();
                         setExercises(data.exercises || []);
@@ -88,7 +89,7 @@ function Home() {
     useEffect(() => {
         const fetchUserExercises = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
+                const response = await fetch(`https://gymance-y7ux.onrender.com/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
                 if (response.ok) {
                     const data = await response.json();
                     setExercises(data.exercises || []);
@@ -106,7 +107,7 @@ function Home() {
     useEffect(() => {
         const fetchUserSharedWorkouts = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/getSharedWorkouts/${username}`);
+                const response = await fetch(`https://gymance-y7ux.onrender.com/getSharedWorkouts/${username}`);
                 if (response.ok) {
                     const data = await response.json();
                     setUserSharedWorkouts(data.sharedWorkouts || []);
@@ -138,9 +139,25 @@ function Home() {
         navigate("/login");
     };
 
+    const showWorkouts = () => {
+        if (window.innerWidth < 768) {
+            document.querySelector(".day-panel").style.display = "block";
+            document.querySelector(".dashboard").style.display = "none";
+            document.querySelector(".day-panel").style.width = "100%";
+        }
+    }
+
+    const showDashboard = () => {
+        if (window.innerWidth < 768) {
+            document.querySelector(".day-panel").style.display = "none";
+            document.querySelector(".dashboard").style.display = "block";
+            document.querySelector(".dashboard").style.width = "100%";
+        }
+    }
+
     const handleCreateSubmit = async () => {
         try {
-            const response = await fetch("http://localhost:3001/addWorkout", {
+            const response = await fetch("https://gymance-y7ux.onrender.com/addWorkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -165,7 +182,7 @@ function Home() {
 
     const handleEditSubmit = async () => {
         try {
-            const response = await fetch("http://localhost:3001/updateWorkoutName", {
+            const response = await fetch("https://gymance-y7ux.onrender.com/updateWorkoutName", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -195,7 +212,7 @@ function Home() {
 
     const handleDelete = async (index) => {
         try {
-            const response = await fetch("http://localhost:3001/deleteWorkout", {
+            const response = await fetch("https://gymance-y7ux.onrender.com/deleteWorkout", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -272,7 +289,7 @@ function Home() {
 
     const moveToWorkouts = async (index) => {
         try {
-            const response = await fetch(`http://localhost:3001/moveToWorkouts/${username}/${index}`, {
+            const response = await fetch(`https://gymance-y7ux.onrender.com/moveToWorkouts/${username}/${index}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -304,7 +321,7 @@ function Home() {
                 return;
             }
 
-            const response = await fetch("http://localhost:3001/addExercise", {
+            const response = await fetch("https://gymance-y7ux.onrender.com/addExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -347,7 +364,7 @@ function Home() {
         const shareUsername = prompt("Enter username to share with:");
         if (shareUsername) {
             try {
-                const response = await fetch(`http://localhost:3001/shareWorkout/${shareUsername}`, {
+                const response = await fetch(`https://gymance-y7ux.onrender.com/shareWorkout/${shareUsername}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -370,7 +387,7 @@ function Home() {
 
     const handleDeleteExercise = async (index) => {
         try {
-            const response = await fetch("http://localhost:3001/deleteExercise", {
+            const response = await fetch("https://gymance-y7ux.onrender.com/deleteExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -418,7 +435,7 @@ function Home() {
                 return;
             }
 
-            const response = await fetch("http://localhost:3001/updateExercise", {
+            const response = await fetch("https://gymance-y7ux.onrender.com/updateExercise", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -464,7 +481,7 @@ function Home() {
 
     const fetchUpdatedExercises = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
+            const response = await fetch(`https://gymance-y7ux.onrender.com/getExercises/${username}/${selectedWorkoutIndex}/${selectedDay}`);
             if (response.ok) {
                 const data = await response.json();
                 return data.exercises || [];
@@ -492,14 +509,17 @@ function Home() {
                         <h2>{workout.workoutName}</h2>
                         {hoveredWorkoutIndex === index && (
                             <div className="action-icons">
-                                <span className="delete-icon" onClick={() => handleDelete(index)}>
-                                    ❌
+                                <span className="hide" onClick={showDashboard}>
+                                <FontAwesomeIcon icon={faCheck} style={{color: "#ffffff",}} />
                                 </span>
                                 <span className="delete-icon" onClick={() => handleEdit(index)}>
-                                    🖊
+                                <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
                                 </span>
                                 <span className="delete-icon" onClick={() => handleShare(index)}>
-                                    💾
+                                    <FontAwesomeIcon icon={faShare} style={{color: "#ffffff",}} />
+                                </span>
+                                <span className="delete-icon" onClick={() => handleDelete(index)}>
+                                    <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                                 </span>
                             </div>
                         )}
@@ -559,7 +579,7 @@ function Home() {
                         {hoveredSelectedWorkoutIndex === index && (
                             <div className="">
                                 <span className="delete-icon" onClick={() => moveToWorkouts(index)}>
-                                    ↑
+                                    <FontAwesomeIcon icon={faUpload} style={{color: "#ffffff",}} />
                                 </span>
                             </div>
                         )}
@@ -633,10 +653,10 @@ function Home() {
                             onChange={(e) => setExerciseWeight(e.target.value)}
                         />
                         <div className="form-buttons">
-                            <button onClick={handleExerciseSubmit} className="create-exercise">
+                            <button onClick={handleExerciseSubmit} className="create-exercise-1">
                                 Submit
                             </button>
-                            <button onClick={() => setShowExerciseForm(false)} className="create-exercise">
+                            <button onClick={() => setShowExerciseForm(false)} className="create-exercise-1">
                                 Cancel
                             </button>
                         </div>
@@ -646,6 +666,7 @@ function Home() {
                 {selectedWorkout? (
                     <div className="exercises-list">
                         <h2>Exercises for {selectedWorkout?.workoutName} - {selectedDay}</h2>
+                        <button className="select-workout" onClick={showWorkouts}>Select Workout</button>
                         <ul>
                             {exercises.map((exercise, index) => (
                                 <li key={index} className="exercise-item">
@@ -654,7 +675,7 @@ function Home() {
                                             <h3>{exercise.name}</h3>
                                             <div className="action-icons exercise-icons">
                                                 <span className="icon" onClick={() => handleDeleteExercise(index)}>
-                                                    ❌
+                                                <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                                                 </span>
                                                 {editExerciseIndex === index ? (
                                                     <>
@@ -662,12 +683,12 @@ function Home() {
                                                             ✔️
                                                         </span>
                                                         <span className="icon" onClick={() => setEditExerciseIndex(null)}>
-                                                            ❌
+                                                        <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                                                         </span>
                                                     </>
                                                 ) : (
                                                     <span className="icon" onClick={() => handleEditExercise(index)}>
-                                                        🖊
+                                                        <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
                                                     </span>
                                                 )}
                                             </div>
@@ -695,35 +716,35 @@ function Home() {
                                     </div>
                                     {editExerciseIndex === index && (
                                         <div className="edit-exercise-form">
-                                            Name:<input
+                                            <h3 className="input-header">Name</h3><input
                                                 type="text"
                                                 placeholder="Edit Exercise Name"
                                                 className="exercise-name heading"
                                                 value={editedExerciseName}
                                                 onChange={(e) => setEditedExerciseName(e.target.value)}
                                             />
-                                            Sets:<input
+                                            <h3 className="input-header">Sets</h3><input
                                                 type="text"
                                                 placeholder="Edit Number of Sets"
                                                 className="number-of-sets"
                                                 value={editedNumberOfSets}
                                                 onChange={(e) => setEditedNumberOfSets(e.target.value)}
                                             />
-                                            Reps<input
+                                            <h3 className="input-header">Reps</h3><input
                                                 type="text"
                                                 placeholder="Edit Number of Repetitions"
                                                 className="number-of-repetitions"
                                                 value={editedNumberOfRepetitions}
                                                 onChange={(e) => setEditedNumberOfRepetitions(e.target.value)}
                                             />
-                                            Time:<input
+                                            <h3 className="input-header">Time</h3><input
                                                 type="text"
                                                 placeholder="Edit Time"
                                                 className="exercise-time"
                                                 value={editedExerciseTime}
                                                 onChange={(e) => setEditedExerciseTime(e.target.value)}
                                             />
-                                            Weight:<input
+                                            <h3 className="input-header">Weight</h3><input
                                                 type="text"
                                                 placeholder="Edit Weight"
                                                 className="exercise-weight"
@@ -752,6 +773,7 @@ function Home() {
                 ) : (
                     <div className="fix-top-margin">
                         <h2>No workout selected</h2>
+                        <button className="select-workout" onClick={showWorkouts}>Select Workout</button>
                     </div>
                 )}
                 {isLoadingExercises && (

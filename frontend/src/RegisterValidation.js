@@ -12,8 +12,14 @@ function validation(values) {
 
     if (!values.password) {
         errors.password = "Password is required";
-    } else if (values.password.length < 6) {
-        errors.password = "Password must be more than 6 characters";
+    } else if (values.password.length < 8) {
+        errors.password = "Password must be more than 8 characters";
+    }
+    else if (!/(?=.*[0-9])/.test(values.password)) {
+        errors.password = "Password must contain a number";
+    }
+    else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
+        errors.password = "Password must contain a special character";
     }
 
     return errors;

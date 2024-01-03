@@ -35,7 +35,11 @@ body {
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #EEF5FF;
+  background: #8ACDD7;
+}
+
+.register-form-group ::placeholder {
+  color: #282c34;
 }
 
 nav {
@@ -208,27 +212,29 @@ input {
   height: 100%;
   width: 99%;
   position: relative;
-  background: #B4D4FF;
+  background: #8ACDD7;
   padding: 0.5em;
 }
 
 .day-panel {
   width: 25%;
   height: 100vh;
-  background: #EEF5FF;
+  background: #ECF0F1;
   margin: 0.2em;
-  border-radius: 10px;
+  border-radius: 20px;
   padding-left: 1em;
   overflow: scroll;
+  color: #2C3E50;
 }
 
 .dashboard {
   width: 75%;
   height: 100vh;
-  background: #EEF5FF;
+  background: #ECF0F1;
   margin: 0.2em;
-  border-radius: 10px;
+  border-radius: 20px;
   overflow: scroll;
+  color: #2C3E50;
 }
 
 .dashboard-nav {
@@ -277,8 +283,8 @@ input {
 }
 
 .workout-item:hover {
-  background-color: #000;
-  color: #fff;
+  background-color: #3498DB;
+  color: #ECF0F1;
 }
 
 .delete-icon {
@@ -369,12 +375,12 @@ input {
 }
 
 .menu li:hover {
-  background: #05a3ef;
+  background: #3498DB;
   color: white;
 }
 
 .menu .active {
-  background: #05a3ef;
+  background: #3498DB;
   color: white;
 }
 
@@ -388,11 +394,16 @@ input {
   margin: 1em;
   font-size: 1.5em;
   cursor: pointer;
+  margin-top: 0.95em;
+}
+
+.addExcercise:hover {
+  color: #27AE60;
 }
 
 .selected-workout {
-  background-color: black;
-  color: white;
+  background-color: #3498DB;
+  color: #ECF0F1 ;
 }
 
 .exercises-list {
@@ -419,8 +430,8 @@ input {
   border-radius: 1em;
   margin-right: 1em;
   transition: ease-in-out 0.3s;
-  background: black;
-  color: white;
+  background: #27AE60;
+  color: #ECF0F1 ;
   padding: 1em;
   margin-bottom: 1em;
 }
@@ -454,15 +465,33 @@ input {
 .exercise-form {
   margin: 3em;
   margin-top: -2.7em;
+  background-color: #27AE60;
+  border-radius: 1em;
+  padding: 1em;
+  width: 13.5em;
+  color: #ECF0F1;
 }
 
 .exercise-form button {
-  margin-right: 2.3em;
-  background: black;
-  color: white;
+  margin-right: 2em;
+  background: #3498DB;
+  color: #ECF0F1;
   border-radius: 1em;
-  border: 1px solid black;
+  border: none;
   cursor: pointer;
+  height: 2em;
+  margin-left: 2em;
+}
+
+.create-exercise {
+  border-radius: 0.5em;
+  background: #3498DB;
+  color: #ECF0F1;
+  cursor: pointer;
+  margin-right: 2em;
+  border: none;
+  margin-left: 2em;
+  height: 2em;
 }
 
 .no-pad {
@@ -482,19 +511,24 @@ input {
   border-radius: 1em;
   margin-right: 1em;
   transition: ease-in-out 0.3s;
-  background: black;
-  color: white;
+  background: #27AE60;
+  color: #ECF0F1;
   padding: 1em;
   margin-bottom: 1em;
   width: 14em;
 }
 
-.edit-exercise-form input {
-  background: black;
-  color: white;
+::placeholder {
+  color: #ECF0F1;
+}
+
+.edit-exercise-form input, .exercise-form input {
+  background: #27AE60;
+  color: #ECF0F1;
   border: none;
   border-bottom: 0.5px solid #fff;
   width: 100%;
+  font-size: 1em;
 }
 
 .heading {
@@ -506,14 +540,61 @@ input {
 }
 
 .logout {
-  background: #282c34;
+  background: #3498DB;
   border: none;
-  color: white;
+  color: #ECF0F1;
   border-radius: 0.5em;
   transform: translateX(-0.3em);
   display: none;
+  height: 2em;
+  cursor: pointer;
 }
 
 .account:hover .logout {
   display: block;
+}
+
+.select-workout {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard {
+    width: 96%;
+  }
+  .day-panel {
+    display: none;
+    width: 94%;
+  }
+  .dashboard-nav {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+  .fix-top-margin {
+    margin-top: 0;
+    margin-left: 1.5em;
+  }
+  .delete-icon {
+    display: inline;
+  }
+  .select-workout {
+    background: #27AE60;
+    color: #ECF0F1;
+    border-radius: 0.5em;
+    border: none;
+    height: 2em;
+    display: block;
+  }
+  .hide {
+    display: inline;
+    margin-right: 1em;
+  }
+}
+
+.input-header {
+  padding-bottom: 0;
 }
