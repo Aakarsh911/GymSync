@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://0.0.0.0:27017/registeration'); // Replace with your MongoDB connection string
+mongoose.connect('mongodb+srv://aakarshkaushal911:<password>@cluster0.w5wy7f4.mongodb.net/registeration?retryWrites=true&w=majority'); // Replace with your MongoDB connection string
 
 const db = mongoose.connection;
 
