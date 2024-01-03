@@ -8,9 +8,12 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://aakarshkaushal911:<password>@cluster0.w5wy7f4.mongodb.net/registeration?retryWrites=true&w=majority'); // Replace with your MongoDB connection string
+mongoose.connect('mongodb+srv://aakarshkaushal911:aakarsh911@cluster0.w5wy7f4.mongodb.net/?retryWrites=true&w=majority'); // Replace with your MongoDB connection string
 
 const db = mongoose.connection;
+
+// check if connection was successful
+db.on('error', console.error.bind(console, 'connection error:'));
 
 const workoutSchema = new mongoose.Schema({
     workoutName: String,
