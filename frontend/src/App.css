@@ -219,7 +219,7 @@ input {
   margin: 0.2em;
   border-radius: 10px;
   padding-left: 1em;
-  overflow: scroll;
+  margin-top: 0.5em;
 }
 
 .dashboard {
@@ -228,6 +228,7 @@ input {
   background: #EEF5FF;
   margin: 0.2em;
   border-radius: 10px;
+  margin-top: 0.5em;
   overflow: scroll;
 }
 
@@ -475,7 +476,7 @@ input {
 }
 
 .exercise-icons {
-  padding-top: 1.25em;
+  padding-top: 1em;
 }
 
 .edit-exercise-form {
@@ -499,21 +500,4 @@ input {
 
 .heading {
   border-bottom: 0.5px solid #fff;
-}
-
-.no-exercises {
-  color: gray;
-}
-
-.logout {
-  background: #282c34;
-  border: none;
-  color: white;
-  border-radius: 0.5em;
-  transform: translateX(-0.3em);
-  display: none;
-}
-
-.account:hover .logout {
-  display: block;
 }

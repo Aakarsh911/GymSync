@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors(
     {
@@ -311,13 +311,8 @@ app.post('/shareWorkout/:shareUsername', async (req, res) => {
 
         // Find the user by the username who wants to share the workout
         const user = await User.findOne({ username });
-        const shareUser = await User.findOne({ username: shareUsername });
 
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        if (!shareUser) {
             return res.status(404).json({ error: 'User not found' });
         }
 
