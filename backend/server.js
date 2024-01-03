@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://aakarshkaushal911:aakarsh911@cluster0.w5wy7f4.mongodb.net/registeration?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://aakarshkaushal911:aakarsh911@cluster0.w5wy7f4.mongodb.net/?retryWrites=true&w=majority');
 
 const db = mongoose.connection;
 
