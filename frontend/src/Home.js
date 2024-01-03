@@ -672,7 +672,7 @@ function Home() {
                                 <li key={index} className="exercise-item">
                                     <div className="exercise">
                                         <div className="excercise-header">
-                                            <h3>{exercise.name}</h3>
+                                            <h3 className="exercise-name">{exercise.name}</h3>
                                             <div className="action-icons exercise-icons">
                                                 <span className="icon" onClick={() => handleDeleteExercise(index)}>
                                                 <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />

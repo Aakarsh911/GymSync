@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://aakarshkaushal911:aakarsh911@cluster0.w5wy7f4.mongodb.net/?retryWrites=true&w=majority'); // Replace with your MongoDB connection string
+mongoose.connect('mongodb+srv://aakarshkaushal911:aakarsh911@cluster0.w5wy7f4.mongodb.net/registeration?retryWrites=true&w=majority');
 
 const db = mongoose.connection;
 
@@ -62,6 +62,7 @@ app.post('/register', async (req, res) => {
         });
         await user.save();
         res.json({ message: 'Registration successful' });
+        localStorage.setItem('username', req.body.username);
     } catch (err) {
         console.log(err);
         res.status(500).send('Internal Server Error');

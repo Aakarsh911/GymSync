@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import validation from "./RegisterValidation";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Register() {
     const [values, setValues] = useState({
@@ -9,6 +10,14 @@ function Register() {
         email: "",
         password: ""
     });
+
+    useEffect(() => {
+        const username = localStorage.getItem("username");
+        if (username) {
+          navigate("/");
+        }
+      }
+      , []);
 
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);

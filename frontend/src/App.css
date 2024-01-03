@@ -520,7 +520,7 @@ input {
 }
 
 ::placeholder {
-  color: #ECF0F1;
+  color: #282c34;
 }
 
 .edit-exercise-form input, .exercise-form input {
@@ -598,4 +598,12 @@ input {
 
 .input-header {
   padding-bottom: 0;
+}
+
+.exercise-name {
+  margin-right: 1em;
+}
+
+.exercise-form ::placeholder {
+  color: #ECF0F1;
 }

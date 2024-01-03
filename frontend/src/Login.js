@@ -9,6 +9,14 @@ function Login() {
     password: "",
   });
 
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (username) {
+      navigate("/");
+    }
+  }
+  , []);
+
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
