@@ -594,6 +594,10 @@ input {
     display: inline;
     margin-right: 1em;
   }
+
+  .exercise {
+    width: 17.5em;
+  }
 }
 
 .input-header {
