@@ -3,7 +3,6 @@ import userLogo from "./user.png";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faCheck , faTrash, faShare, faUpload} from "@fortawesome/free-solid-svg-icons";
-import { set } from "mongoose";
 
 function Home() {
     const username = localStorage.getItem("username");
